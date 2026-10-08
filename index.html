@@ -218,7 +218,7 @@
       const wordDisplay = document.createElement("span");
       wordDisplay.className = "word-display";
       const noun = document.createElement("span");
-      noun.textContent = currentWord.word;
+      noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
       wordDisplay.append(gender, noun);
       card.replaceChildren(wordDisplay);
       info.textContent = `Level: ${currentWord.level} | Frequency: ${currentWord.frequency}`;
