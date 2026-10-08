@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>German Word Trainer</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 650px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    .card {
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      font-size: 2rem;
+      margin: 16px 0;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .word-gender {
+      flex: 0 0 2em;
+      margin-right: 0.3em;
+      text-align: right;
+    }
+    button, select {
+      font-size: 1rem;
+      padding: 10px 14px;
+      margin: 4px 0;
+    }
+    .small {
+      color: #666;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>German Word Trainer</h1>
+
+  <label>
+    Level:
+    <select id="levelFilter">
+      <option value="all">All</option>
+    </select>
+  </label>
+
+  <div class="card" id="card">Loading...</div>
+  <button id="mainBtn" disabled>Start</button>
+  <p class="small" id="info"></p>
+
+  <script>
+    let words = [];
+    let currentWord = null;
+    let showingGender = false;
+
+    const card = document.getElementById("card");
+    const info = document.getElementById("info");
+    const mainBtn = document.getElementById("mainBtn");
+    const levelFilter = document.getElementById("levelFilter");
+
+    function parseCSV(csv) {
+      const lines = csv.trim().split(/\r?\n/);
+      return lines.slice(1).map(line => {
+        const parts = line.split(",").map(p => p.trim());
+        return {
+          word: parts[0] || "",
+          gender: parts[1] || "",
+          frequency: Number(parts[2]) || 0,
+          level: parts[3] || ""
+        };
+      }).filter(w => w.word);
+    }
+
+    function populateLevelFilter() {
+      const levels = [...new Set(words.map(w => w.level).filter(Boolean))].sort();
+      levelFilter.innerHTML = `<option value="all">All</option>`;
+      levels.forEach(level => {
+        const opt = document.createElement("option");
+        opt.value = level;
+        opt.textContent = level;
+        levelFilter.appendChild(opt);
+      });
+    }
+
+    function getFilteredWords() {
+      const level = levelFilter.value;
+      return level === "all" ? words : words.filter(w => w.level === level);
+    }
+
+    function pickRandomWord() {
+      const pool = getFilteredWords();
+      if (pool.length === 0) return null;
+      return pool[Math.floor(Math.random() * pool.length)];
+    }
+
+    function showNewWord() {
+      currentWord = pickRandomWord();
+      showingGender = false;
+
+      if (!currentWord) {
+        card.textContent = "No words match filter";
+        info.textContent = "";
+        mainBtn.textContent = "Next";
+        return;
+      }
+
+      const gender = document.createElement("span");
+      gender.className = "word-gender";
+      const noun = document.createElement("span");
+      noun.textContent = currentWord.word;
+      card.replaceChildren(gender, noun);
+      info.textContent = `Level: ${currentWord.level} | Frequency: ${currentWord.frequency}`;
+      mainBtn.textContent = "Reveal gender";
+    }
+
+    function revealGender() {
+      card.querySelector(".word-gender").textContent = currentWord.gender;
+      mainBtn.textContent = "Next word";
+      showingGender = true;
+    }
+
+    fetch("nouns_small.csv")
+      .then(res => res.text())
+      .then(text => {
+        words = parseCSV(text);
+        populateLevelFilter();
+        card.textContent = `Loaded ${words.length} words. Click Start.`;
+        mainBtn.disabled = false;
+      })
+      .catch(err => {
+        card.textContent = "Could not load nouns_small.csv";
+        info.textContent = err.message;
+      });
+
+    mainBtn.addEventListener("click", () => {
+      if (!currentWord || showingGender) {
+        showNewWord();
+      } else {
+        revealGender();
+      }
+    });
+
+    levelFilter.addEventListener("change", () => {
+      currentWord = null;
+      showingGender = false;
+      if (words.length) {
+        card.textContent = "Filter changed. Click Start.";
+        info.textContent = "";
+        mainBtn.textContent = "Start";
+      }
+    });
+  </script>
+</body>
+</html>
