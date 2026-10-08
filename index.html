@@ -3,44 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>German Word Trainer</title>
+  <title>DerDieDas</title>
   <style>
-    body {
-      font-family: system-ui, sans-serif;
-      max-width: 650px;
-      margin: 40px auto;
-      padding: 20px;
+    :root {
+      color-scheme: light;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #202a35;
+      background: #f6f7f8;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    h1 {
+      margin: 0 0 32px;
+      font-size: clamp(1.6rem, 5vw, 2rem);
+      font-weight: 650;
+      letter-spacing: -0.045em;
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: #596575;
+      font-size: 0.9rem;
+      font-weight: 550;
+    }
+
     .card {
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 24px;
+      min-height: 160px;
+      margin: 24px 0 18px;
+      padding: 28px;
+      border: 1px solid #e5e8eb;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 8px 24px rgb(31 45 61 / 4%);
       text-align: center;
-      font-size: 2rem;
-      margin: 16px 0;
-      min-height: 80px;
+      font-size: clamp(1.6rem, 6vw, 2rem);
+      font-weight: 450;
+      letter-spacing: -0.02em;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+
     .word-gender {
       flex: 0 0 2em;
       margin-right: 0.3em;
       text-align: right;
     }
+
     button, select {
+      min-height: 42px;
+      border: 1px solid #dce1e6;
+      border-radius: 9px;
+      background: #fff;
+      color: #202a35;
       font-size: 1rem;
-      padding: 10px 14px;
-      margin: 4px 0;
+      font: inherit;
+      transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
     }
-    .small {
-      color: #666;
+
+    select {
+      padding: 8px 34px 8px 12px;
+      cursor: pointer;
+    }
+
+    button {
+      padding: 10px 17px;
+      border-color: #25384b;
+      background: #25384b;
+      color: #fff;
       font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    button:not(:disabled):hover {
+      border-color: #172838;
+      background: #172838;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+    }
+
+    button:focus-visible, select:focus-visible {
+      outline: 3px solid #8db9e8;
+      outline-offset: 3px;
+    }
+
+    .small {
+      margin-top: 18px;
+      color: #77818d;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 40px 20px;
+      }
+
+      h1 {
+        margin-bottom: 26px;
+      }
+
+      .card {
+        min-height: 140px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>German Word Trainer</h1>
+  <h1>DerDieDas</h1>
 
   <label>
     Level:
