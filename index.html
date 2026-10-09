@@ -177,7 +177,16 @@
           gender: parts[1] || "",
           level: parts[2] || ""
         };
-      }).filter(w => w.word);
+      }).filter(w => w.word).map((word, index, allWords) => ({
+        ...word,
+        rank: ((index + 1) / allWords.length) * 100
+      }));
+    }
+
+    function formatWordRank(rank) {
+      if (rank < 1) return "<1%";
+      if (rank > 90) return ">90%";
+      return `${rank.toFixed(0)}%`;
     }
 
     function populateLevelFilter() {
@@ -221,7 +230,7 @@
       noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
       wordDisplay.append(gender, noun);
       card.replaceChildren(wordDisplay);
-      info.textContent = `Level: ${currentWord.level}`;
+      info.textContent = `Level: ${currentWord.level} | Word rank: ${formatWordRank(currentWord.rank)}`;
       mainBtn.textContent = "Reveal gender";
     }
 
