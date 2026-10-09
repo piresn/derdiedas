@@ -197,6 +197,8 @@
   </section>
 
   <script>
+    const SENTENCE_API_URL = "https://green-fire-c072.orange-king-f185.workers.dev/sentences";
+
     let words = [];
     let currentWord = null;
     let showingGender = false;
@@ -283,10 +285,15 @@
 
     async function loadSentences(word) {
       clearSentences("Loading example sentences...", false);
+      if (!SENTENCE_API_URL) {
+        sentenceStatus.textContent = "Set SENTENCE_API_URL to your deployed Cloudflare Worker URL.";
+        return;
+      }
+
       const request = new AbortController();
       sentenceRequest = request;
-      const query = encodeURIComponent(word);
-      const url = `https://api.wortschatz-leipzig.de/ws/sentences/deu_news_2012_1M/sentences/${query}?offset=0&limit=3`;
+      const url = new URL(SENTENCE_API_URL);
+      url.searchParams.set("word", word);
 
       try {
         const response = await fetch(url, { signal: request.signal });
