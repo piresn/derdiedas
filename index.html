@@ -110,6 +110,35 @@
       width: 190px;
     }
 
+    #sentences {
+      margin-top: 24px;
+      color: #89939e;
+      font-size: 0.9rem;
+    }
+
+    #sentences h2 {
+      margin: 0 0 8px;
+      color: #7d8995;
+      font-size: 0.95rem;
+      font-weight: 550;
+    }
+
+    #sentenceList {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .sentence-item {
+      line-height: 1.55;
+    }
+
+    .sentence-word {
+      color: #596575;
+    }
+
     button:not(:disabled):hover {
       border-color: #172838;
       background: #172838;
@@ -161,16 +190,25 @@
   <div class="card" id="card">Loading...</div>
   <p class="small" id="info"></p>
   <button id="mainBtn" disabled>Start</button>
+  <section id="sentences" aria-labelledby="sentencesHeading" aria-live="polite" hidden>
+    <h2 id="sentencesHeading">Example sentences</h2>
+    <p class="small" id="sentenceStatus">Reveal gender to see example sentences.</p>
+    <ul id="sentenceList"></ul>
+  </section>
 
   <script>
     let words = [];
     let currentWord = null;
     let showingGender = false;
+    let sentenceRequest = null;
 
     const card = document.getElementById("card");
     const info = document.getElementById("info");
     const mainBtn = document.getElementById("mainBtn");
     const levelFilter = document.getElementById("levelFilter");
+    const sentences = document.getElementById("sentences");
+    const sentenceStatus = document.getElementById("sentenceStatus");
+    const sentenceList = document.getElementById("sentenceList");
 
     function parseCSV(csv) {
       const lines = csv.trim().split(/\r?\n/);
@@ -215,6 +253,71 @@
       return pool[Math.floor(Math.random() * pool.length)];
     }
 
+    function clearSentences(message, hide = true) {
+      if (sentenceRequest) {
+        sentenceRequest.abort();
+        sentenceRequest = null;
+      }
+      sentenceList.replaceChildren();
+      sentenceStatus.textContent = message;
+      sentences.hidden = hide;
+    }
+
+    function highlightWord(sentence, word) {
+      const escapedWord = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const pattern = new RegExp(`(?<![\\p{L}\\p{N}_])${escapedWord}(?![\\p{L}\\p{N}_])`, "giu");
+      const fragment = document.createDocumentFragment();
+      let lastIndex = 0;
+
+      for (const match of sentence.matchAll(pattern)) {
+        fragment.appendChild(document.createTextNode(sentence.slice(lastIndex, match.index)));
+        const emphasis = document.createElement("span");
+        emphasis.className = "sentence-word";
+        emphasis.textContent = match[0];
+        fragment.appendChild(emphasis);
+        lastIndex = match.index + match[0].length;
+      }
+      fragment.appendChild(document.createTextNode(sentence.slice(lastIndex)));
+      return fragment;
+    }
+
+    async function loadSentences(word) {
+      clearSentences("Loading example sentences...", false);
+      const request = new AbortController();
+      sentenceRequest = request;
+      const query = encodeURIComponent(word);
+      const url = `https://api.wortschatz-leipzig.de/ws/sentences/deu_news_2012_1M/sentences/${query}?offset=0&limit=3`;
+
+      try {
+        const response = await fetch(url, { signal: request.signal });
+        if (!response.ok) {
+          throw new Error(`Sentence request failed (${response.status}).`);
+        }
+        const data = await response.json();
+        if (sentenceRequest !== request) return;
+
+        const results = Array.isArray(data.sentences) ? data.sentences : [];
+        if (results.length === 0) {
+          sentenceStatus.textContent = "No example sentences found.";
+          return;
+        }
+
+        sentenceStatus.textContent = "";
+        results.forEach(result => {
+          const item = document.createElement("li");
+          item.className = "sentence-item";
+          item.appendChild(highlightWord(result.sentence, word));
+          sentenceList.appendChild(item);
+        });
+      } catch (err) {
+        if (err.name === "AbortError") return;
+        if (sentenceRequest !== request) return;
+        sentenceStatus.textContent = `Could not load example sentences: ${err.message}`;
+      } finally {
+        if (sentenceRequest === request) sentenceRequest = null;
+      }
+    }
+
     function showNewWord() {
       currentWord = pickRandomWord();
       showingGender = false;
@@ -223,6 +326,7 @@
         card.textContent = "No words match filter";
         info.textContent = "";
         mainBtn.textContent = "Next";
+        clearSentences("Reveal gender to see example sentences.");
         return;
       }
 
@@ -236,12 +340,14 @@
       card.replaceChildren(wordDisplay);
       info.textContent = `Level: ${currentWord.level} | Word rank: ${formatWordRank(currentWord.rank)}`;
       mainBtn.textContent = "Reveal gender";
+      clearSentences("Reveal gender to see example sentences.");
     }
 
     function revealGender() {
       card.querySelector(".word-gender").textContent = currentWord.gender;
       mainBtn.textContent = "Next word";
       showingGender = true;
+      loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
     }
 
     fetch("nouns_small.csv")
@@ -272,6 +378,7 @@
         card.textContent = "Filter changed. Click Start.";
         info.textContent = "";
         mainBtn.textContent = "Start";
+        clearSentences("Reveal gender to see example sentences.");
       }
     });
   </script>
