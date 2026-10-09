@@ -170,13 +170,12 @@
 
     function parseCSV(csv) {
       const lines = csv.trim().split(/\r?\n/);
-      return lines.slice(1).map(line => {
+      return lines.map(line => {
         const parts = line.split(",").map(p => p.trim());
         return {
           word: parts[0] || "",
           gender: parts[1] || "",
-          frequency: Number(parts[2]) || 0,
-          level: parts[3] || ""
+          level: parts[2] || ""
         };
       }).filter(w => w.word);
     }
@@ -222,7 +221,7 @@
       noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
       wordDisplay.append(gender, noun);
       card.replaceChildren(wordDisplay);
-      info.textContent = `Level: ${currentWord.level} | Frequency: ${currentWord.frequency}`;
+      info.textContent = `Level: ${currentWord.level}`;
       mainBtn.textContent = "Reveal gender";
     }
 
