@@ -11,13 +11,41 @@
   <style>
     :root {
       color-scheme: light;
+      --page-bg: #f6f7f8;
+      --text: #202a35;
+      --muted: #596575;
+      --card-bg: #fff;
+      --card-border: #e5e8eb;
+      --control-border: #dce1e6;
+      --button-bg: #25384b;
+      --button-hover: #172838;
+      --sentences-muted: #89939e;
+      --sentences-heading: #7d8995;
+      --small-muted: #77818d;
+      --card-shadow: 0 8px 24px rgb(31 45 61 / 4%);
       font-family: "Avenir Next", Avenir, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      color: #202a35;
-      background: #f6f7f8;
+      color: var(--text);
+      background: var(--page-bg);
       font-synthesis: none;
       text-rendering: optimizeLegibility;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --page-bg: #171b20;
+      --text: #e6eaf0;
+      --muted: #b0bac7;
+      --card-bg: #222830;
+      --card-border: #343d48;
+      --control-border: #414b58;
+      --button-bg: #3c536b;
+      --button-hover: #4b6682;
+      --sentences-muted: #a1acb9;
+      --sentences-heading: #b2bdc9;
+      --small-muted: #aab4c0;
+      --card-shadow: 0 8px 24px rgb(0 0 0 / 18%);
     }
 
     * {
@@ -37,11 +65,17 @@
       letter-spacing: -0.045em;
     }
 
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
     label {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      color: #596575;
+      color: var(--muted);
       font-size: 0.9rem;
       font-weight: 550;
     }
@@ -50,10 +84,10 @@
       min-height: 160px;
       margin: 24px 0 18px;
       padding: 28px;
-      border: 1px solid #e5e8eb;
+      border: 1px solid var(--card-border);
       border-radius: 16px;
-      background: #fff;
-      box-shadow: 0 8px 24px rgb(31 45 61 / 4%);
+      background: var(--card-bg);
+      box-shadow: var(--card-shadow);
       text-align: center;
       font-size: clamp(1.6rem, 6vw, 2rem);
       font-weight: 450;
@@ -78,10 +112,10 @@
 
     button, select {
       min-height: 42px;
-      border: 1px solid #dce1e6;
+      border: 1px solid var(--control-border);
       border-radius: 9px;
-      background: #fff;
-      color: #202a35;
+      background: var(--card-bg);
+      color: var(--text);
       font-size: 1rem;
       font: inherit;
       transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
@@ -94,12 +128,24 @@
 
     button {
       padding: 10px 17px;
-      border-color: #25384b;
-      background: #25384b;
+      border-color: var(--button-bg);
+      background: var(--button-bg);
       color: #fff;
       font-size: 0.95rem;
       font-weight: 600;
       cursor: pointer;
+    }
+
+    .theme-toggle {
+      width: 42px;
+      height: 42px;
+      padding: 0;
+      margin-bottom: 32px;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 1.35rem;
+      line-height: 1;
     }
 
     #mainBtn {
@@ -112,13 +158,13 @@
 
     #sentences {
       margin-top: 24px;
-      color: #89939e;
+      color: var(--sentences-muted);
       font-size: 0.9rem;
     }
 
     #sentences h2 {
       margin: 0 0 8px;
-      color: #7d8995;
+      color: var(--sentences-heading);
       font-size: 0.95rem;
       font-weight: 550;
     }
@@ -136,13 +182,19 @@
     }
 
     .sentence-word {
-      color: #596575;
+      color: var(--muted);
     }
 
     button:not(:disabled):hover {
-      border-color: #172838;
-      background: #172838;
+      border-color: var(--button-hover);
+      background: var(--button-hover);
       transform: translateY(-1px);
+    }
+
+    .theme-toggle:not(:disabled):hover {
+      border-color: transparent;
+      background: transparent;
+      transform: none;
     }
 
     button:disabled {
@@ -157,7 +209,7 @@
 
     .small {
       margin-top: 18px;
-      color: #77818d;
+      color: var(--small-muted);
       font-size: 0.875rem;
       line-height: 1.5;
     }
@@ -176,9 +228,16 @@
       }
     }
   </style>
+  <script>
+    document.documentElement.dataset.theme =
+      window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  </script>
 </head>
 <body>
-  <h1>DerDieDas</h1>
+  <header class="page-header">
+    <h1>DerDieDas</h1>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="Dunkles Design aktivieren" aria-pressed="false">☾</button>
+  </header>
 
   <label>
     Niveau:
@@ -207,10 +266,34 @@
     const card = document.getElementById("card");
     const info = document.getElementById("info");
     const mainBtn = document.getElementById("mainBtn");
+    const themeToggle = document.getElementById("themeToggle");
+    const colorScheme = window.matchMedia("(prefers-color-scheme: dark)");
     const levelFilter = document.getElementById("levelFilter");
     const sentences = document.getElementById("sentences");
     const sentenceStatus = document.getElementById("sentenceStatus");
     const sentenceList = document.getElementById("sentenceList");
+    let themeOverridden = false;
+
+    function updateThemeToggle() {
+      const isDark = document.documentElement.dataset.theme === "dark";
+      //themeToggle.textContent = isDark ? "☀" : "☾";
+      themeToggle.textContent = isDark ? "☼" : "☾";
+      themeToggle.setAttribute("aria-label", isDark ? "Helles Design aktivieren" : "Dunkles Design aktivieren");
+      themeToggle.setAttribute("aria-pressed", String(isDark));
+    }
+
+    themeToggle.addEventListener("click", () => {
+      themeOverridden = true;
+      document.documentElement.dataset.theme =
+        document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+      updateThemeToggle();
+    });
+    colorScheme.addEventListener("change", event => {
+      if (themeOverridden) return;
+      document.documentElement.dataset.theme = event.matches ? "dark" : "light";
+      updateThemeToggle();
+    });
+    updateThemeToggle();
 
     function parseCSV(csv) {
       const lines = csv.trim().split(/\r?\n/);
