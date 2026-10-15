@@ -28,9 +28,9 @@ BEGIN {
 ' nouns.csv > tmp && mv tmp nouns.csv
 ```
 
-#### first 10000 words
+#### first 5000 words
 ```bash
-head -10000 nouns.csv > nouns_small.csv
+head -5000 nouns.csv > nouns_small.csv
 ```
 
 ## Sentence lookup Worker
