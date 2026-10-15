@@ -1,0 +1,218 @@
+:root {
+  color-scheme: light;
+  --page-bg: #f6f7f8;
+  --text: #202a35;
+  --muted: #596575;
+  --card-bg: #fff;
+  --card-border: #e5e8eb;
+  --control-border: #dce1e6;
+  --button-bg: #25384b;
+  --button-hover: #172838;
+  --sentences-muted: #89939e;
+  --sentences-heading: #7d8995;
+  --small-muted: #77818d;
+  --card-shadow: 0 8px 24px rgb(31 45 61 / 4%);
+  font-family: "Avenir Next", Avenir, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--text);
+  background: var(--page-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --page-bg: #171b20;
+  --text: #e6eaf0;
+  --muted: #b0bac7;
+  --card-bg: #222830;
+  --card-border: #343d48;
+  --control-border: #414b58;
+  --button-bg: #3c536b;
+  --button-hover: #4b6682;
+  --sentences-muted: #a1acb9;
+  --sentences-heading: #b2bdc9;
+  --small-muted: #aab4c0;
+  --card-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+h1 {
+  margin: 0 0 32px;
+  font-size: clamp(1.6rem, 5vw, 2rem);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 550;
+}
+
+.card {
+  min-height: 160px;
+  margin: 24px 0 18px;
+  padding: 28px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  font-size: clamp(1.6rem, 6vw, 2rem);
+  font-weight: 450;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.word-display {
+  position: relative;
+  max-width: 100%;
+}
+
+.word-gender {
+  position: absolute;
+  right: 100%;
+  width: 2em;
+  margin-right: 0.3em;
+  text-align: right;
+}
+
+button, select {
+  min-height: 42px;
+  border: 1px solid var(--control-border);
+  border-radius: 9px;
+  background: var(--card-bg);
+  color: var(--text);
+  font-size: 1rem;
+  font: inherit;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+select {
+  padding: 8px 34px 8px 12px;
+  cursor: pointer;
+}
+
+button {
+  padding: 10px 17px;
+  border-color: var(--button-bg);
+  background: var(--button-bg);
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.theme-toggle {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  margin-bottom: 32px;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+#mainBtn {
+  display: block;
+  margin: 22px auto 0;
+  padding: 15px 26px;
+  font-size: 1.1rem;
+  width: 190px;
+}
+
+#sentences {
+  margin-top: 24px;
+  color: var(--sentences-muted);
+  font-size: 0.9rem;
+}
+
+#sentences h2 {
+  margin: 0 0 8px;
+  color: var(--sentences-heading);
+  font-size: 0.95rem;
+  font-weight: 550;
+}
+
+#sentenceList {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sentence-item {
+  line-height: 1.55;
+}
+
+.sentence-word {
+  color: var(--muted);
+}
+
+button:not(:disabled):hover {
+  border-color: var(--button-hover);
+  background: var(--button-hover);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:not(:disabled):hover {
+  border-color: transparent;
+  background: transparent;
+  transform: none;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+button:focus-visible, select:focus-visible {
+  outline: 3px solid #8db9e8;
+  outline-offset: 3px;
+}
+
+.small {
+  margin-top: 18px;
+  color: var(--small-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 40px 20px;
+  }
+
+  h1 {
+    margin-bottom: 26px;
+  }
+
+  .card {
+    min-height: 140px;
+  }
+}
