@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -181,18 +181,18 @@
   <h1>DerDieDas</h1>
 
   <label>
-    Level:
+    Niveau:
     <select id="levelFilter">
-      <option value="all">All</option>
+      <option value="all">Alle</option>
     </select>
   </label>
 
-  <div class="card" id="card">Loading...</div>
+  <div class="card" id="card">Wird geladen …</div>
   <p class="small" id="info"></p>
-  <button id="mainBtn" disabled>Start</button>
+  <button id="mainBtn" disabled>Starten</button>
   <section id="sentences" aria-labelledby="sentencesHeading" aria-live="polite" hidden>
-    <h2 id="sentencesHeading">Example sentences</h2>
-    <p class="small" id="sentenceStatus">Reveal gender to see example sentences.</p>
+    <h2 id="sentencesHeading">Beispielsätze</h2>
+    <p class="small" id="sentenceStatus">Zeige den Artikel an, um Beispielsätze zu sehen.</p>
     <ul id="sentenceList"></ul>
   </section>
 
@@ -242,7 +242,7 @@
 
     function populateLevelFilter() {
       const levels = [...new Set(words.map(w => getLevelGroup(w.level)).filter(Boolean))].sort();
-      levelFilter.innerHTML = `<option value="all">All</option>`;
+      levelFilter.innerHTML = `<option value="all">Alle</option>`;
       levels.forEach(level => {
         const opt = document.createElement("option");
         opt.value = level;
@@ -290,9 +290,9 @@
 
     async function loadSentences(word) {
       const requestId = ++sentenceRequestId;
-      sentenceStatus.textContent = "Loading example sentences...";
+      sentenceStatus.textContent = "Beispielsätze werden geladen …";
       if (!SENTENCE_API_URL) {
-        sentenceStatus.textContent = "Set SENTENCE_API_URL to your deployed Cloudflare Worker URL.";
+        sentenceStatus.textContent = "Die Beispielsätze sind derzeit nicht verfügbar.";
         return;
       }
 
@@ -309,7 +309,7 @@
 
         const results = Array.isArray(data.sentences) ? data.sentences : [];
         if (results.length === 0) {
-          sentenceStatus.textContent = "No example sentences found.";
+          sentenceStatus.textContent = "Keine Beispielsätze gefunden.";
           return;
         }
 
@@ -322,7 +322,8 @@
         });
       } catch (err) {
         if (sentenceRequestId !== requestId) return;
-        sentenceStatus.textContent = `Could not load example sentences: ${err.message}`;
+        console.error("Beispielsätze konnten nicht geladen werden.", err);
+        sentenceStatus.textContent = "Beispielsätze konnten nicht geladen werden.";
       }
     }
 
@@ -331,10 +332,10 @@
       showingGender = false;
 
       if (!currentWord) {
-        card.textContent = "No words match filter";
+        card.textContent = "Keine Wörter entsprechen diesem Filter.";
         info.textContent = "";
-        mainBtn.textContent = "Next";
-        clearSentences("Reveal gender to see example sentences.");
+        mainBtn.textContent = "Weiter";
+        clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
         return;
       }
 
@@ -346,15 +347,15 @@
       noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
       wordDisplay.append(gender, noun);
       card.replaceChildren(wordDisplay);
-      info.textContent = `Level: ${currentWord.level} | Word rank: ${formatWordRank(currentWord.rank)}`;
-      mainBtn.textContent = "Reveal gender";
-      clearSentences("Reveal gender to see example sentences.");
+      info.textContent = `Niveau: ${currentWord.level} | Wort-Rang: ${formatWordRank(currentWord.rank)}`;
+      mainBtn.textContent = "Artikel anzeigen";
+      clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
       loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
     }
 
     function revealGender() {
       card.querySelector(".word-gender").textContent = currentWord.gender;
-      mainBtn.textContent = "Next word";
+      mainBtn.textContent = "Nächstes Wort";
       showingGender = true;
       sentences.hidden = false;
     }
@@ -364,12 +365,13 @@
       .then(text => {
         words = parseCSV(text);
         populateLevelFilter();
-        card.textContent = `Loaded ${words.length} words. Click Start.`;
+        card.textContent = `${words.length} Wörter geladen. Klicke auf „Starten“.`;
         mainBtn.disabled = false;
       })
       .catch(err => {
-        card.textContent = "Could not load nouns_small.csv";
-        info.textContent = err.message;
+        console.error("Die Wortliste konnte nicht geladen werden.", err);
+        card.textContent = "Die Wortliste konnte nicht geladen werden.";
+        info.textContent = "";
       });
 
     mainBtn.addEventListener("click", () => {
@@ -384,10 +386,10 @@
       currentWord = null;
       showingGender = false;
       if (words.length) {
-        card.textContent = "Filter changed. Click Start.";
+        card.textContent = "Filter geändert. Klicke auf „Starten“.";
         info.textContent = "";
-        mainBtn.textContent = "Start";
-        clearSentences("Reveal gender to see example sentences.");
+        mainBtn.textContent = "Starten";
+        clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
       }
     });
   </script>
