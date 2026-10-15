@@ -189,7 +189,7 @@ fetch("data/nouns_small.csv")
   .then(text => {
     words = parseCSV(text);
     populateLevelFilter();
-    card.textContent = `${words.length} Wörter geladen. Klicke auf „Starten“.`;
+    card.textContent = "Klicke auf „Starten“.";
     mainBtn.disabled = false;
   })
   .catch(err => {
