@@ -1,4 +1,3 @@
-danke,die,A1
 Mann,der,A1
 Zeit,die,A1
 jahr,das,A1
@@ -29,7 +28,6 @@ moment,der,A1
 scheiß,der,A1
 familie,die,A1
 sohn,der,A1
-mann,der,A1
 bruder,der,A1
 musik,die,B1
 Arbeit,die,A1
@@ -42,7 +40,6 @@ Fall,der,B1
 hilfe,die,A1
 baby,das,A1
 stadt,die,A1
-dad,das,A1
 Frage,die,A1
 auto,das,A1
 uhr,die,A1
@@ -62,19 +59,16 @@ waffe,die,A1
 monat,der,A1
 ahnung,die,A2
 tür,die,A2
-eure,der,A1
 polizei,die,A1
 tochter,die,A1
 geschichte,die,A2
 grund,der,B1
-Mom,der,A1
 name,der,A1
 teufel,der,A1
 Art,die,A1
 mama,die,A1
 seite,die,A2
 Ruhe,die,B1
-Miss,die,B1
 chance,die,B1
 Wasser,das,A1
 wahrheit,die,B1
@@ -96,7 +90,6 @@ Entschuldigung,die,A1
 typ,der,B1
 Mensch,der,A1
 Sorge,die,B1
-Jack,der,A1
 Blut,das,B1
 eltern,die,B1
 nummer,die,A1
@@ -105,7 +98,6 @@ Film,der,A1
 papa,der,A1
 arsch,der,A1
 Platz,der,A1
-reden,die,A2
 telefon,das,A1
 junge,der,A1
 König,der,B1
@@ -157,8 +149,6 @@ team,das,A2
 entscheidung,die,B1
 gefängnis,das,B1
 Opfer,das,B1
-mr,der,A1
-herr,der,A1
 Versuch,der,B1
 sex,der,A1
 Klasse,die,A1
@@ -316,7 +306,7 @@ Mark,die,A1
 Hals,der,A2
 kunde,der,A1
 buch,das,A1
-bord,das,A1
+bord,der/das,A1
 fuß,der,A1
 Stein,der,B1
 zeichen,das,B1
@@ -491,7 +481,6 @@ opa,der,A1
 Direktor,der,B1
 untersuchung,die,B1
 kuh,die,A2
-aken,der,A2
 schutz,der,B1
 code,der,A2
 arzt,der,A1
@@ -516,7 +505,6 @@ vorschlag,der,A2
 flughafen,der,A1
 offizier,der,A2
 geheimnisse,das,A2
-Joey,die,A2
 ton,der,A2
 übersetzung,die,A2
 Mond,der,B1
@@ -563,7 +551,6 @@ fahren,das,A1
 artikel,der,A2
 gott,der,B1
 trottel,der,A2
-lch,der,A2
 story,die,A2
 Post,die,A1
 Mitgenomm,die,A2
@@ -584,7 +571,6 @@ gerücht,das,A2
 freundschaft,die,B1
 Sonntag,der,A2
 unterstützung,die,B1
-Ed,der,A2
 treppe,die,A1
 hoheit,die,A2
 schönheit,die,A2
@@ -610,7 +596,6 @@ lügn,der,A2
 penny,der,A2
 medizin,die,B1
 prozess,der,B1
-Marie,die,A2
 fan,der,A2
 chaos,das,A2
 brot,das,A1
@@ -629,7 +614,6 @@ feigling,der,A2
 montag,der,A2
 täter,der,B1
 explosion,die,A2
-Hank,die,A2
 geburt,die,B1
 Rate,die,A2
 Beruf,der,A1
@@ -651,12 +635,10 @@ ermittlung,die,A2
 Mitte,die,A1
 krebs,der,A2
 vorteil,der,B1
-Gibts,der,A2
 maske,die,A2
 abteilung,die,B1
 champagner,der,A2
 ross,das,A2
-Julie,die,A2
 Wetter,das,A1
 german,das,A2
 Pack,das,A2
@@ -823,11 +805,8 @@ fabrik,die,B1
 fantasie,die,B1
 wissenschaft,die,B1
 öffentlichkeit,die,B1
-Abby,die,A2
-steven,der,A2
 Probe,die,A2
 lektion,die,A2
-molly,der,A2
 sand,der,B1
 Patient,der,B1
 bedrohung,die,A2
@@ -860,7 +839,6 @@ Roman,der,B1
 mord,der,B1
 basis,die,B1
 Schock,der,B1
-empfingen,der,B1
 manager,der,B1
 Titel,der,A2
 einfluss,der,B1
@@ -930,8 +908,7 @@ hafen,der,B1
 glocke,die,B1
 miststück,der,B1
 organisation,die,B1
-Schild,das,A1
-verbrennen,die,B1
+Schild,der/das,A1
 vorfall,der,B1
 palast,der,B1
 versicherung,die,B1
@@ -1069,12 +1046,9 @@ teppich,der,B1
 kompliment,das,B1
 badezimmer,das,B1
 Reporter,der,B1
-mm,der,B1
-parken,der,A2
 nigger,der,B1
 tal,das,B1
 kleinigkeit,die,B1
-Serena,die,B1
 Schein,der,B1
 vorschrift,die,B1
 aufzeichnung,die,B1
@@ -1092,13 +1066,11 @@ parkplatz,der,B1
 umgebung,die,B1
 therapie,die,B1
 go,das,B1
-stop,der,B1
 zone,die,B1
 Blitz,der,B1
 sklave,der,B1
 passagier,der,B1
 bewusstsein,das,B1
-stillen,die,B1
 asche,die,B1
 friedhof,der,B1
 wolf,der,B1
@@ -1122,8 +1094,6 @@ kopfschmerz,der,B1
 Flotte,die,B1
 leutnant,der,B1
 wirkung,die,B1
-erwachsene,der,A1
-Zack,das,B1
 faust,die,B1
 gefangener,der,B1
 unterschrift,die,A1
@@ -1138,8 +1108,6 @@ Marke,die,B1
 charakter,der,B1
 leistung,die,B1
 kapitel,das,B1
-Stanley,das,B1
-scheisse,das,B1
 Ärztin,die,B1
 Botschafter,der,B1
 ruhm,der,B1
@@ -1147,7 +1115,6 @@ treffer,der,B1
 köpfe,der,B1
 entführung,die,B1
 Knarre,die,B1
-Sekretärin,der,B1
 handschelle,die,B1
 admiral,der,B1
 bande,die,B1
@@ -1167,7 +1134,6 @@ zuschauer,der,B1
 motel,das,B1
 klavier,das,A2
 dummheit,die,B1
-Kent,das,B1
 Bau,der,B1
 Lex,der,B1
 Schwarzer,der,B1
@@ -1210,7 +1176,6 @@ puls,der,B1
 rettung,die,B1
 Laster,der,B1
 mittwoch,der,B1
-grandma,das,B1
 grüne,das,B1
 rand,der,B1
 Schauspielerin,die,B1
@@ -1218,14 +1183,11 @@ forschung,die,B1
 werbung,die,B1
 gegenwart,die,B1
 student,der,A1
-Liz,die,B1
 missverständnis,das,B1
 biest,das,B1
 anschlag,der,B1
-Mason,die,B1
 coach,der,B1
 instinkt,der,B1
-greg,das,B1
 Fleck,der,B1
 produkt,das,A2
 macgyv,das,B1
@@ -1254,7 +1216,6 @@ grundstück,das,B1
 Begriff,der,B1
 telefonnummer,die,B1
 keks,der,B1
-gewinnen,der,A1
 verständnis,das,B1
 apparat,der,A2
 Papst,der,B1
@@ -1263,7 +1224,6 @@ Löwe,der,B1
 Gewinn,der,B1
 aufregung,die,B1
 Wert,der,B1
-krank,der,A1
 gemälde,das,B1
 zirkus,der,A2
 tempo,das,B1
@@ -1336,7 +1296,7 @@ biene,die,B1
 Spock,der,B1
 whiskey,der,B1
 september,der,B1
-info,die,B1
+info,die/das,B1
 kloster,das,B1
 loyalität,die,B1
 Maus,die,B1
@@ -1401,7 +1361,7 @@ getränk,das,A1
 tattoo,der,B1
 gang,der,B1
 Dylan,der,B1
-Erbe,das,B1
+Erbe,das/der,B1
 dschungel,der,B1
 strategie,die,B1
 zivilist,der,B1
@@ -1604,7 +1564,6 @@ zusammenhang,der,B1
 datum,das,A1
 yang,das,B1
 metall,das,B1
-Psst,der,B1
 Apfel,der,A1
 rente,die,B1
 spannung,die,B1
@@ -1634,14 +1593,13 @@ geheimdienst,der,B1
 Richie,die,B1
 fernen,die,B1
 kommunikation,die,B1
-Stevie,das,B1
 süßigkeit,die,B1
 ais,das,B1
 schrift,die,B1
 Kellner,der,B1
 nest,das,B1
 feiertag,der,B1
-laptop,der,B1
+laptop,der/das,B1
 besprechung,die,B1
 küsse,das,B1
 räume,der,B1
@@ -2567,7 +2525,6 @@ Lacey,das,B2
 Sternzeit,die,B2
 barbie,die,B2
 Wechsel,der,B2
-strasse,der,B2
 anpassung,die,B2
 schwindler,der,B2
 nummernschild,das,B2

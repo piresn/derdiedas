@@ -34,6 +34,11 @@ mkdir -p public/data
 head -5000 nouns.csv > public/data/nouns_small.csv
 ```
 
+#### Manually fix issues with word file
+can run QC to check against a small model assessment
+Running list of gender replaced / word removed: `fixes.txt`
+
+
 ## Sentence lookup Worker
 
 The Leipzig sentence API does not enable browser CORS. This separately deployed
