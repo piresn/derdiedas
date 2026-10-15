@@ -37,6 +37,7 @@ head -5000 nouns.csv > public/data/nouns_small.csv
 #### Manually fix issues with word file
 can run QC to check against a small model assessment
 Running list of gender replaced / word removed: `fixes.txt`
+(use `git diff --unified=0 --no-prefix | grep -E '^[+-][^+-]' >> fixes.txt` for recording for now)
 
 
 ## Sentence lookup Worker
