@@ -202,7 +202,7 @@
     let words = [];
     let currentWord = null;
     let showingGender = false;
-    let sentenceRequest = null;
+    let sentenceRequestId = 0;
 
     const card = document.getElementById("card");
     const info = document.getElementById("info");
@@ -264,10 +264,7 @@
     }
 
     function clearSentences(message, hide = true) {
-      if (sentenceRequest) {
-        sentenceRequest.abort();
-        sentenceRequest = null;
-      }
+      sentenceRequestId += 1;
       sentenceList.replaceChildren();
       sentenceStatus.textContent = message;
       sentences.hidden = hide;
@@ -292,24 +289,23 @@
     }
 
     async function loadSentences(word) {
-      clearSentences("Loading example sentences...", false);
+      const requestId = ++sentenceRequestId;
+      sentenceStatus.textContent = "Loading example sentences...";
       if (!SENTENCE_API_URL) {
         sentenceStatus.textContent = "Set SENTENCE_API_URL to your deployed Cloudflare Worker URL.";
         return;
       }
 
-      const request = new AbortController();
-      sentenceRequest = request;
       const url = new URL(SENTENCE_API_URL);
       url.searchParams.set("word", word);
 
       try {
-        const response = await fetch(url, { signal: request.signal });
+        const response = await fetch(url);
         if (!response.ok) {
           throw new Error(`Sentence request failed (${response.status}).`);
         }
         const data = await response.json();
-        if (sentenceRequest !== request) return;
+        if (sentenceRequestId !== requestId) return;
 
         const results = Array.isArray(data.sentences) ? data.sentences : [];
         if (results.length === 0) {
@@ -325,11 +321,8 @@
           sentenceList.appendChild(item);
         });
       } catch (err) {
-        if (err.name === "AbortError") return;
-        if (sentenceRequest !== request) return;
+        if (sentenceRequestId !== requestId) return;
         sentenceStatus.textContent = `Could not load example sentences: ${err.message}`;
-      } finally {
-        if (sentenceRequest === request) sentenceRequest = null;
       }
     }
 
@@ -356,13 +349,14 @@
       info.textContent = `Level: ${currentWord.level} | Word rank: ${formatWordRank(currentWord.rank)}`;
       mainBtn.textContent = "Reveal gender";
       clearSentences("Reveal gender to see example sentences.");
+      loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
     }
 
     function revealGender() {
       card.querySelector(".word-gender").textContent = currentWord.gender;
       mainBtn.textContent = "Next word";
       showingGender = true;
-      loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
+      sentences.hidden = false;
     }
 
     fetch("nouns_small.csv")
