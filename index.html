@@ -249,6 +249,7 @@
         opt.textContent = level;
         levelFilter.appendChild(opt);
       });
+      levelFilter.value = levels.includes("A1/A2") ? "A1/A2" : "all";
     }
 
     function getFilteredWords() {
