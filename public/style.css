@@ -89,16 +89,25 @@ label {
 }
 
 .word-display {
+  display: inline-block;
   position: relative;
   max-width: 100%;
 }
 
 .word-gender {
   position: absolute;
+  bottom: 0;
   right: 100%;
-  width: 2em;
+  width: max-content;
+  max-width: min(8em, calc(50vw - 1.5em));
   margin-right: 0.3em;
   text-align: right;
+  overflow-wrap: anywhere;
+}
+
+.word-gender-compact {
+  bottom: 0.12em;
+  font-size: 0.75em;
 }
 
 button, select {

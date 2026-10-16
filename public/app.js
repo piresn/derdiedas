@@ -161,6 +161,9 @@ function showNewWord() {
 
   const gender = document.createElement("span");
   gender.className = "word-gender";
+  if (currentWord.gender.includes("|") || currentWord.gender.length > 6) {
+    gender.classList.add("word-gender-compact");
+  }
   const wordDisplay = document.createElement("span");
   wordDisplay.className = "word-display";
   const noun = document.createElement("span");
