@@ -72,3 +72,5 @@ The Worker Free plan currently includes 100,000 requests per day. See
 https://corpora.wortschatz-leipzig.de/en?corpusId=deu_news_2025 - lots of resources, NLP, semantic connections, frequencies, but RESTful not working
 
 [https://www.reader-dict.com/de/download/de](https://www.reader-dict.com/de/download/de)
+
+https://www.dwds.de/d/api
