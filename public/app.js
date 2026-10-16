@@ -45,22 +45,10 @@ function parseCSV(csv) {
       gender: parts[1] || "",
       level: parts[2] || ""
     };
-  }).filter(w => w.word).map((word, index, allWords) => ({
-    ...word,
-    rank: ((index + 1) / allWords.length) * 100
-  }));
-}
-
-function formatWordRank(rank) {
-  if (rank < 1) return "<1%";
-  if (rank > 90) return ">90%";
-  return `${rank.toFixed(0)}%`;
+  }).filter(w => w.word);
 }
 
 function getLevelGroup(level) {
-  if (level === "A1" || level === "A2") return "A1/A2";
-  if (level === "B1" || level === "B2") return "B1/B2";
-  if (level === "C1" || level === "C2") return "C1/C2";
   return level;
 }
 
@@ -73,7 +61,7 @@ function populateLevelFilter() {
     opt.textContent = level;
     levelFilter.appendChild(opt);
   });
-  levelFilter.value = levels.includes("A1/A2") ? "A1/A2" : "all";
+  levelFilter.value = levels.includes("A1") ? "A1" : levels.includes("A2") ? "A2" : levels.includes("B1") ? "B1" : "all";
 }
 
 function getFilteredWords() {
@@ -171,7 +159,7 @@ function showNewWord() {
   noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
   wordDisplay.append(gender, noun);
   card.replaceChildren(wordDisplay);
-  info.textContent = `Niveau: ${currentWord.level} | Wort-Rang: ${formatWordRank(currentWord.rank)}`;
+  info.textContent = `Niveau: ${currentWord.level}`;
   mainBtn.textContent = "Artikel anzeigen";
   clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
   loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
@@ -184,7 +172,7 @@ function revealGender() {
   sentences.hidden = false;
 }
 
-fetch("data/nouns_small.csv")
+fetch("data/nouns_dwds.csv")
   .then(res => res.text())
   .then(text => {
     words = parseCSV(text);
