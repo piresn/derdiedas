@@ -72,6 +72,11 @@ function getFilteredWords() {
   return level === "all" ? words : words.filter(w => getLevelGroup(w.level) === level);
 }
 
+function getAvailableWordsMessage() {
+  const count = getFilteredWords().length;
+  return `${count} ${count === 1 ? "Wort" : "Wörter"} verfügbar`;
+}
+
 function pickRandomWord() {
   const pool = getFilteredWords();
   if (pool.length === 0) return null;
@@ -147,7 +152,7 @@ function showNewWord() {
   showingGender = false;
 
   if (!currentWord) {
-    card.textContent = "Keine Wörter entsprechen diesem Filter.";
+    card.textContent = getAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Weiter";
     clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
@@ -202,7 +207,7 @@ fetch("data/nouns_dwds.csv")
   .then(text => {
     words = parseCSV(text);
     populateLevelFilter();
-    card.textContent = "Klicke auf „Starten“.";
+    card.textContent = getAvailableWordsMessage();
     mainBtn.disabled = false;
   })
   .catch(err => {
@@ -223,7 +228,7 @@ levelFilter.addEventListener("change", () => {
   currentWord = null;
   showingGender = false;
   if (words.length) {
-    card.textContent = "Filter geändert. Klicke auf „Starten“.";
+    card.textContent = getAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Starten";
     clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
