@@ -1,44 +1,6 @@
-# Dictionary
+# DerDieDas
 
-Data from https://github.com/natema/wordhoard
-
-## Prepare csv
-```bash
-wget https://github.com/natema/wordhoard/releases/download/v0.1.0/wordhoard-csv-v0.1.0.zip
-# extract wordhoard-de.csv
-# ...
-#keep NOUN (2nd col) lines and only cols 1,3,6
-
-awk -F, '$2 == "NOUN"{print $1","$3","$6}' wordhoard-de.csv > nouns.csv
-
-# remove empty col2 lines
-awk -F',' '$2 != ""' nouns.csv > tmp && mv tmp nouns.csv
-```
-
-#### remove incorrect words
-```bash
-words="im,IG"
-
-awk -F',' -v list="$words" '
-BEGIN {
-  n = split(list, a, ",")
-  for (i = 1; i <= n; i++) bad[a[i]] = 1
-}
-!($1 in bad)
-' nouns.csv > tmp && mv tmp nouns.csv
-```
-
-#### first 5000 words
-```bash
-mkdir -p public/data
-head -5000 nouns.csv > public/data/nouns_small.csv
-```
-
-#### Manually fix issues with word file
-can run QC to check against a small model assessment
-Running list of gender replaced / word removed: `fixes.txt`
-(use `git diff --unified=0 --no-prefix | grep -E '^[+-][^+-]' >> fixes.txt` for recording for now)
-
+A small browser app for practicing German noun genders. Filter nouns by CEFR level, reveal each article, and explore example sentences, frequency information, and DWDS dictionary entries.
 
 ## Sentence lookup Worker
 
