@@ -14,6 +14,9 @@ const levelFilter = document.getElementById("levelFilter");
 const sentences = document.getElementById("sentences");
 const sentenceStatus = document.getElementById("sentenceStatus");
 const sentenceList = document.getElementById("sentenceList");
+const dwdsDialog = document.getElementById("dwdsDialog");
+const dwdsFrame = document.getElementById("dwdsFrame");
+const dwdsExternalLink = document.getElementById("dwdsExternalLink");
 let themeOverridden = false;
 
 function updateThemeToggle() {
@@ -161,10 +164,14 @@ function showNewWord() {
   card.replaceChildren(wordDisplay);
   const dwdsLink = document.createElement("a");
   dwdsLink.href = `https://www.dwds.de/wb/${encodeURIComponent(currentWord.word)}`;
-  dwdsLink.target = "_blank";
-  dwdsLink.rel = "noopener noreferrer";
   dwdsLink.className = "dwds-link";
   dwdsLink.textContent = "DWDS";
+  dwdsLink.addEventListener("click", event => {
+    event.preventDefault();
+    dwdsFrame.src = dwdsLink.href;
+    dwdsExternalLink.href = dwdsLink.href;
+    dwdsDialog.showModal();
+  });
 
   info.replaceChildren(
     document.createTextNode(`Niveau: ${currentWord.level} | `),
@@ -174,6 +181,14 @@ function showNewWord() {
   clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
   loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
 }
+
+document.getElementById("closeDwdsDialog").addEventListener("click", () => {
+  dwdsDialog.close();
+});
+
+dwdsDialog.addEventListener("close", () => {
+  dwdsFrame.src = "about:blank";
+});
 
 function revealGender() {
   card.querySelector(".word-gender").textContent = currentWord.gender;

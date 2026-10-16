@@ -216,6 +216,63 @@ button:focus-visible, select:focus-visible {
   opacity: 1;
 }
 
+dialog {
+  width: min(900px, calc(100% - 32px));
+  max-width: none;
+  max-height: min(85vh, 800px);
+  padding: 18px;
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  background: var(--card-bg);
+  color: var(--text);
+  box-shadow: 0 16px 48px rgb(0 0 0 / 24%);
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 55%);
+}
+
+.dwds-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.dwds-dialog-header h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 550;
+}
+
+.dwds-dialog-close {
+  min-width: 42px;
+  padding: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+#dwdsFrame {
+  display: block;
+  width: 100%;
+  height: min(65vh, 620px);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  background: var(--card-bg);
+}
+
+.dwds-dialog-fallback {
+  margin: 12px 0 0;
+  color: var(--small-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.dwds-dialog-fallback a {
+  color: inherit;
+}
+
 .small {
   margin-top: 18px;
   color: var(--small-muted);

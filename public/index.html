@@ -36,6 +36,18 @@
     <ul id="sentenceList"></ul>
   </section>
 
+  <dialog id="dwdsDialog" aria-labelledby="dwdsDialogHeading">
+    <div class="dwds-dialog-header">
+      <h2 id="dwdsDialogHeading">DWDS</h2>
+      <button id="closeDwdsDialog" class="dwds-dialog-close" type="button" aria-label="Schließen">×</button>
+    </div>
+    <iframe id="dwdsFrame" title="DWDS-Wörterbucheintrag"></iframe>
+    <p class="dwds-dialog-fallback">
+      Falls der Eintrag hier nicht angezeigt wird,
+      <a id="dwdsExternalLink" target="_blank" rel="noopener noreferrer">direkt bei DWDS öffnen</a>.
+    </p>
+  </dialog>
+
   <script src="app.js" defer></script>
 </body>
 </html>
