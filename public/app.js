@@ -159,7 +159,17 @@ function showNewWord() {
   noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
   wordDisplay.append(gender, noun);
   card.replaceChildren(wordDisplay);
-  info.textContent = `Niveau: ${currentWord.level}`;
+  const dwdsLink = document.createElement("a");
+  dwdsLink.href = `https://www.dwds.de/wb/${encodeURIComponent(currentWord.word)}`;
+  dwdsLink.target = "_blank";
+  dwdsLink.rel = "noopener noreferrer";
+  dwdsLink.className = "dwds-link";
+  dwdsLink.textContent = "DWDS";
+
+  info.replaceChildren(
+    document.createTextNode(`Niveau: ${currentWord.level} | `),
+    dwdsLink
+  );
   mainBtn.textContent = "Artikel anzeigen";
   clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
   loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));

@@ -198,6 +198,24 @@ button:focus-visible, select:focus-visible {
   outline-offset: 3px;
 }
 
+.dwds-link {
+  color: var(--small-muted);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 150ms ease, opacity 150ms ease;
+  opacity: 0.9;
+}
+
+.dwds-link:hover,
+.dwds-link:focus-visible,
+.dwds-link:active,
+.dwds-link:visited {
+  color: var(--small-muted);
+  text-decoration: none;
+  border-bottom-color: var(--small-muted);
+  opacity: 1;
+}
+
 .small {
   margin-top: 18px;
   color: var(--small-muted);
