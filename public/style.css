@@ -88,6 +88,12 @@ label {
   justify-content: center;
 }
 
+.card[href] {
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .word-display {
   display: inline-block;
   position: relative;
@@ -205,24 +211,6 @@ button:disabled {
 button:focus-visible, select:focus-visible {
   outline: 3px solid #8db9e8;
   outline-offset: 3px;
-}
-
-.dwds-link {
-  color: var(--small-muted);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 150ms ease, opacity 150ms ease;
-  opacity: 0.9;
-}
-
-.dwds-link:hover,
-.dwds-link:focus-visible,
-.dwds-link:active,
-.dwds-link:visited {
-  color: var(--small-muted);
-  text-decoration: none;
-  border-bottom-color: var(--small-muted);
-  opacity: 1;
 }
 
 dialog {

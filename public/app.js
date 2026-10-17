@@ -152,6 +152,8 @@ function showNewWord() {
   showingGender = false;
 
   if (!currentWord) {
+    card.removeAttribute("href");
+    card.removeAttribute("aria-label");
     card.textContent = getAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Weiter";
@@ -169,26 +171,22 @@ function showNewWord() {
   const noun = document.createElement("span");
   noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
   wordDisplay.append(gender, noun);
+  card.href = `https://www.dwds.de/wb/${encodeURIComponent(currentWord.word)}`;
+  card.setAttribute("aria-label", `${noun.textContent} bei DWDS öffnen`);
   card.replaceChildren(wordDisplay);
-  const dwdsLink = document.createElement("a");
-  dwdsLink.href = `https://www.dwds.de/wb/${encodeURIComponent(currentWord.word)}`;
-  dwdsLink.className = "dwds-link";
-  dwdsLink.textContent = "DWDS";
-  dwdsLink.addEventListener("click", event => {
-    event.preventDefault();
-    dwdsFrame.src = dwdsLink.href;
-    dwdsExternalLink.href = dwdsLink.href;
-    dwdsDialog.showModal();
-  });
-
-  info.replaceChildren(
-    document.createTextNode(`Niveau: ${currentWord.level} | `),
-    dwdsLink
-  );
+  info.textContent = `Niveau: ${currentWord.level}`;
   mainBtn.textContent = "Artikel anzeigen";
   clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
   loadSentences(currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1));
 }
+
+card.addEventListener("click", event => {
+  if (!card.hasAttribute("href")) return;
+  event.preventDefault();
+  dwdsFrame.src = card.href;
+  dwdsExternalLink.href = card.href;
+  dwdsDialog.showModal();
+});
 
 document.getElementById("closeDwdsDialog").addEventListener("click", () => {
   dwdsDialog.close();
@@ -231,6 +229,8 @@ levelFilter.addEventListener("change", () => {
   currentWord = null;
   showingGender = false;
   if (words.length) {
+    card.removeAttribute("href");
+    card.removeAttribute("aria-label");
     card.textContent = getAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Starten";
