@@ -217,7 +217,7 @@ dialog {
   width: min(900px, calc(100% - 32px));
   max-width: none;
   max-height: min(85vh, 800px);
-  padding: 18px;
+  padding: 2px 18px 18px;
   border: 1px solid var(--card-border);
   border-radius: 14px;
   background: var(--card-bg);
@@ -234,20 +234,26 @@ dialog::backdrop {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 12px;
-}
-
-.dwds-dialog-header h2 {
-  margin: 0;
-  font-size: 1rem;
-  font-weight: 550;
+  margin-bottom: 2px;
 }
 
 .dwds-dialog-close {
   min-width: 42px;
   padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--small-muted);
+  opacity: 0.65;
   font-size: 1.4rem;
   line-height: 1;
+}
+
+.dwds-dialog-close:not(:disabled):hover {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text);
+  opacity: 0.85;
+  transform: none;
 }
 
 #dwdsFrame {

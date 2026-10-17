@@ -192,6 +192,19 @@ document.getElementById("closeDwdsDialog").addEventListener("click", () => {
   dwdsDialog.close();
 });
 
+dwdsDialog.addEventListener("click", event => {
+  if (event.target !== dwdsDialog) return;
+  const bounds = dwdsDialog.getBoundingClientRect();
+  if (
+    event.clientX < bounds.left ||
+    event.clientX > bounds.right ||
+    event.clientY < bounds.top ||
+    event.clientY > bounds.bottom
+  ) {
+    dwdsDialog.close();
+  }
+});
+
 dwdsDialog.addEventListener("close", () => {
   dwdsFrame.src = "about:blank";
 });
