@@ -77,6 +77,11 @@ function getAvailableWordsMessage() {
   return `${count} ${count === 1 ? "Wort" : "Wörter"} verfügbar`;
 }
 
+function showAvailableWordsMessage() {
+  card.classList.add("card-available");
+  card.textContent = getAvailableWordsMessage();
+}
+
 function pickRandomWord() {
   const pool = getFilteredWords();
   if (pool.length === 0) return null;
@@ -154,7 +159,7 @@ function showNewWord() {
   if (!currentWord) {
     card.removeAttribute("href");
     card.removeAttribute("aria-label");
-    card.textContent = getAvailableWordsMessage();
+    showAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Weiter";
     clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");
@@ -171,6 +176,7 @@ function showNewWord() {
   const noun = document.createElement("span");
   noun.textContent = currentWord.word.charAt(0).toLocaleUpperCase("de-DE") + currentWord.word.slice(1);
   wordDisplay.append(gender, noun);
+  card.classList.remove("card-available");
   card.href = `https://www.dwds.de/wb/${encodeURIComponent(currentWord.word)}`;
   card.setAttribute("aria-label", `${noun.textContent} bei DWDS öffnen`);
   card.replaceChildren(wordDisplay);
@@ -221,11 +227,12 @@ fetch("data/nouns_dwds.csv")
   .then(text => {
     words = parseCSV(text);
     populateLevelFilter();
-    card.textContent = getAvailableWordsMessage();
+    showAvailableWordsMessage();
     mainBtn.disabled = false;
   })
   .catch(err => {
     console.error("Die Wortliste konnte nicht geladen werden.", err);
+    card.classList.remove("card-available");
     card.textContent = "Die Wortliste konnte nicht geladen werden.";
     info.textContent = "";
   });
@@ -244,7 +251,7 @@ levelFilter.addEventListener("change", () => {
   if (words.length) {
     card.removeAttribute("href");
     card.removeAttribute("aria-label");
-    card.textContent = getAvailableWordsMessage();
+    showAvailableWordsMessage();
     info.textContent = "";
     mainBtn.textContent = "Starten";
     clearSentences("Zeige den Artikel an, um Beispielsätze zu sehen.");

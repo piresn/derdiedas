@@ -88,6 +88,13 @@ label {
   justify-content: center;
 }
 
+.card-available {
+  color: var(--small-muted);
+  font-size: 1rem;
+  font-style: italic;
+  opacity: 0.7;
+}
+
 .card[href] {
   color: inherit;
   cursor: pointer;
