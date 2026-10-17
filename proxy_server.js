@@ -10,6 +10,7 @@ const ALLOWED_ORIGINS = [
 function makeResponse(body, status, origin, allowedOrigins) {
   const headers = new Headers({
     "Content-Type": "application/json; charset=utf-8",
+    "Cache-Control": "no-store",
     "Vary": "Origin"
   });
 
@@ -57,15 +58,37 @@ export default {
       return makeResponse({ error: "Provide a valid word (1-100 characters)." }, 400, origin, ALLOWED_ORIGINS);
     }
 
-    const upstreamUrl = `${UPSTREAM_BASE}${encodeURIComponent(word)}?offset=0&limit=3`;
+    const upstreamUrl = `${UPSTREAM_BASE}${encodeURIComponent(word)}?offset=0&limit=10`;
 
     try {
-      const upstreamResponse = await fetch(upstreamUrl, { signal: request.signal });
+      const upstreamResponse = await fetch(upstreamUrl, {
+        signal: request.signal,
+        cache: "no-store"
+      });
       const body = await upstreamResponse.text();
-      const response = new Response(body, {
+      let responseBody = body;
+
+      if (upstreamResponse.ok) {
+        const data = JSON.parse(body);
+        if (!Array.isArray(data.sentences)) {
+          throw new Error("Sentence service returned an invalid response.");
+        }
+
+        const sentences = data.sentences.slice();
+        const sampleSize = Math.min(3, sentences.length);
+        for (let i = 0; i < sampleSize; i += 1) {
+          const randomIndex = i + Math.floor(Math.random() * (sentences.length - i));
+          [sentences[i], sentences[randomIndex]] = [sentences[randomIndex], sentences[i]];
+        }
+        data.sentences = sentences.slice(0, sampleSize);
+        responseBody = JSON.stringify(data);
+      }
+
+      const response = new Response(responseBody, {
         status: upstreamResponse.status,
         headers: {
           "Content-Type": "application/json; charset=utf-8",
+          "Cache-Control": "no-store",
           "Vary": "Origin"
         }
       });
