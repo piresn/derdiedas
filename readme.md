@@ -2,6 +2,16 @@
 
 A small browser app for practicing German noun genders. Filter nouns by CEFR level, reveal each article, and explore example sentences, frequency information, and DWDS dictionary entries.
 
+## Deploy to GitHub Pages
+
+The `Deploy to GitHub Pages` workflow publishes the `public/` directory whenever
+changes are pushed to `main`. It also includes the repository's root `CNAME`
+file in the published artifact to keep the custom domain configured.
+
+To enable deployment, open the repository's **Settings → Pages** and select
+**GitHub Actions** as the build and deployment source. You can also start a
+deployment manually from the **Actions** tab.
+
 ## Sentence lookup Worker
 
 The Leipzig sentence API does not enable browser CORS. This separately deployed
@@ -30,8 +40,8 @@ updated Worker.
 The Worker Free plan currently includes 100,000 requests per day. See
 [Cloudflare Workers pricing](https://developers.cloudflare.com/workers/platform/pricing/).
 
-## Further resources
-https://corpora.wortschatz-leipzig.de/en?corpusId=deu_news_2025 - lots of resources, NLP, semantic connections, frequencies, but RESTful not working
+## Resources
+https://corpora.wortschatz-leipzig.de/en?corpusId=deu_news_2025 - lots of resources, NLP, semantic connections, frequencies
 
 [https://www.reader-dict.com/de/download/de](https://www.reader-dict.com/de/download/de)
 
